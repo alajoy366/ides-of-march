@@ -52,7 +52,14 @@ const App = (() => {
     });
 
     eraOrder.forEach(eraKey => {
-      const events = grouped[eraKey].sort((a, b) => a.year - b.year);
+      const events = grouped[eraKey].sort((a, b) => {
+        if (a.year !== b.year) return a.year - b.year;
+        // Within same year: historical events first, ahmed entries after
+        if (a.isAhmed && !b.isAhmed) return 1;
+        if (!a.isAhmed && b.isAhmed) return -1;
+        return 0;
+      });
+
       if (!events.length) return;
 
       const eraData = ERAS[eraKey];
@@ -147,7 +154,6 @@ const App = (() => {
       btn.innerHTML = `<span class="era-icon">${data.icon}</span>${data.label}`;
       btn.addEventListener('click', () => {
         state.era = key;
-        
         document.querySelectorAll('.era-tab').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         render();
@@ -165,7 +171,6 @@ const App = (() => {
       btn.textContent = label;
       btn.addEventListener('click', () => {
         state.category = key;
-        
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         render();
@@ -190,7 +195,6 @@ const App = (() => {
       clearTimeout(debounce);
       debounce = setTimeout(() => {
         state.search = e.target.value;
-        
         render();
       }, 200);
     });
