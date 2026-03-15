@@ -1406,7 +1406,7 @@ const EVENTS_DATA = [
 
 const ERAS = {
   all: { label: "All Eras", icon: "◈" },
-  ancient: { label: "Ancient Era", icon: "⚔", years: "474 BC – 493 AD" },
+  ancient: { label: "Ancient Era", icon: "⚔", years: "44 BC – 493 AD" },
   medieval: { label: "Medieval Era", icon: "⚜", years: "856 – 1493" },
   "early-modern": { label: "Early Modern Era", icon: "⛵", years: "1521 – 1794" },
   industrial: { label: "Industrial Era", icon: "⚙", years: "1802 – 1895" },
