@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#06041a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>March XV</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ── LETTER MODAL ──────────────────────────────────────────────────── -->
+  <div id="letterModal" class="letter-modal">
+    <div class="letter-backdrop"></div>
+    <div class="letter-box">
+      <div class="letter-ornament">❧ &nbsp; March &nbsp; XV &nbsp; ❧</div>
+      <div class="letter-moon">🌙</div>
+      <p class="letter-text">
+        For over two thousand years, the Ides of March has belonged to men who were impossible to ignore. Caesar built an empire and was betrayed by the men he trusted most. Pargalı Ibrahim stood at the right hand of the greatest sultan in Ottoman history — loyal, brilliant, irreplaceable — and was strangled in his sleep by the same man he gave everything to. Both warriors. Both betrayed. Both remembered not for how they fell, but for the scale of what they were. You call them your ancestors. Looking at this archive, it is not hard to see why. The loyalty, the certainty, the refusal to be anything less than fully yourself — it is the same thread, pulled across twenty-one centuries and landing, on March 15th 2005, in Bangladesh. This date has always known what it was doing. It just took two thousand years to arrive at you.
+      </p>
+      <p class="letter-sign">Happy 21st birthday, Ahmed. &nbsp;—&nbsp; Alajoy ♡</p>
+      <button class="letter-btn" id="letterBtn">Enter the Archive &nbsp;✦</button>
+    </div>
+  </div>
+
+  <!-- ── HERO ──────────────────────────────────────────────────────────── -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"></div>
+
+    <p class="hero-subtitle-top">A Birthday Archive for Ahmed ♡</p>
+
+    <div class="hero-ornament">❧ &nbsp; March &nbsp; XV &nbsp; ❧</div>
+
+    <h1 class="hero-date">IDES</h1>
+    <div class="hero-title">of March</div>
+
+    <div class="hero-divider"></div>
+
+    <p class="hero-tagline">
+      "Beware the Ides of March" — and yet across millennia, the world
+      has never ceased to pivot on this singular date. Now we know why.
+    </p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num" id="statTotal">—</span>
+        <span class="stat-label">Events</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="statWorldAltering">—</span>
+        <span class="stat-label">World-Altering</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="statSpan">—</span>
+        <span class="stat-label">Years of History</span>
+      </div>
+    </div>
+
+    <div class="scroll-cue">Scroll to explore</div>
+  </header>
+
+  <!-- ── ERA TABS ───────────────────────────────────────────────────────── -->
+  <div id="eraTabs" class="era-tabs"></div>
+
+  <!-- ── STICKY CONTROLS ────────────────────────────────────────────────── -->
+  <div class="controls">
+    <div class="controls-inner">
+      <div class="search-row">
+        <div class="search-wrap">
+          <span class="search-icon">✦</span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search events, figures, regions…"
+            autocomplete="off"
+          />
+        </div>
+        <div class="count-badge">
+          Showing <span id="eventCount">—</span> events
+        </div>
+      </div>
+      <div class="cat-row" id="catRow"></div>
+    </div>
+  </div>
+
+  <!-- ── TIMELINE ───────────────────────────────────────────────────────── -->
+  <main class="main-container">
+    <div id="timelineContainer"></div>
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────────── -->
+  <footer>
+    <span class="footer-ornament">🌙</span>
+    <p class="footer-text">
+      "Some dates belong to history. This one belongs to you."
+    </p>
+    <p class="footer-sub">Happy 21st Birthday, Ahmed &nbsp;♡&nbsp; March 15, 2026</p>
+  </footer>
+
+  <!-- ── SCRIPTS ────────────────────────────────────────────────────────── -->
+  <script src="data.js"></script>
+  <script src="ahmed.js"></script>
+  <script src="app.js"></script>
+  <!-- ── CONFETTI + LETTER MODAL SCRIPT ──────────────────────────────────── -->
+  <script>
+    /* ── Confetti ── */
+    const canvas = document.createElement('canvas');
+    canvas.id = 'confettiCanvas';
+    canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:10001;';
+    document.body.prepend(canvas);
+    const ctx = canvas.getContext('2d');
+
+    const COLORS = [
+      '#f5d4e4', '#e8b4cc', '#b07898',
+      '#fce8f2', '#c880a8', '#e0a8c8',
+      '#fff0f8', '#d4a0c0', '#906080'
+    ];
+
+    let pieces = [];
+    let animId;
+    let active = true;
+
+    function resize() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function spawn() {
+      for (let i = 0; i < 6; i++) {
+        pieces.push({
+          x:     Math.random() * canvas.width,
+          y:     -10,
+          w:     Math.random() * 8 + 4,
+          h:     Math.random() * 14 + 6,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)],
+          rot:   Math.random() * Math.PI * 2,
+          rotV:  (Math.random() - 0.5) * 0.12,
+          vx:    (Math.random() - 0.5) * 1.4,
+          vy:    Math.random() * 2.5 + 1.2,
+          alpha: 1,
+          shape: Math.random() < 0.4 ? 'circle' : 'rect'
+        });
+      }
+    }
+
+    let spawnTimer = 0;
+    function draw(ts) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (active) {
+        spawnTimer++;
+        if (spawnTimer % 3 === 0) spawn();
+      }
+
+      pieces = pieces.filter(p => p.alpha > 0.01 && p.y < canvas.height + 30);
+
+      pieces.forEach(p => {
+        p.x   += p.vx;
+        p.y   += p.vy;
+        p.rot += p.rotV;
+        if (!active) p.alpha -= 0.06;
+
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+
+        if (p.shape === 'circle') {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        }
+        ctx.restore();
+      });
+
+      if (active || pieces.length > 0) {
+        animId = requestAnimationFrame(draw);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.remove();
+      }
+    }
+
+    animId = requestAnimationFrame(draw);
+    setTimeout(() => { active = false; }, 5000);
+
+    /* ── Modal dismiss ── */
+    document.getElementById('letterBtn').addEventListener('click', () => {
+      active = false;
+      document.getElementById('letterModal').classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
