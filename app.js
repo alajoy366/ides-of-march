@@ -52,7 +52,7 @@ const App = (() => {
     });
 
     eraOrder.forEach(eraKey => {
-      const events = grouped[eraKey];
+      const events = grouped[eraKey].sort((a, b) => a.year - b.year);
       if (!events.length) return;
 
       const eraData = ERAS[eraKey];
